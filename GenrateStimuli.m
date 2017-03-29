@@ -2,37 +2,45 @@ clear all; close all; clc
 
 %% GENERATE STIMULI VIDEO
 
-%% VARIABLES
-% duration variables in seconds
-lenStimuli = 10; 
-lenPause = 5; 
+%% PARAMETERS
+% Duration of variables in seconds & working path (configurable parameters)
+lenStimuli = 10; %(sec)
+lenPause = 10;  %(sec)
+workingDir = 'C:\Users\natad\Documents\SMC\MasterThesis\Stimuli\STIMULI_VIDEO';
 
+% Output filenames
+audio_output_filename = 'Audio_Output.wav';
+audio_filename_csv = 'audioFileNames.csv';
+visual_output_filename = 'Video_Output.avi';
+video_filename_csv = 'imageFileNames.csv';
+
+
+%% CREATE VIDEO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+mainPath = [workingDir '\SelectedStimuli'];
+
+%% GENERATE AUDIO %%
+% Define silence and pause
 [silence, fs_silence] = audioread('silence.wav');
 pause = silence(1:(fs_silence*lenPause),:);
 stimuli_silence = silence(1:(fs_silence*lenStimuli),:);
-audio_output_filename = 'audioOutput.wav';
-visual_output_filename = 'visualOutput.jpg';
+%filename = 'stimuli.mp4';
+%fs = 4100;
 
-filename = 'stimuli.mp4';
-addpath( 'C:\Users\natad\Documents\SMC\Master Thesis\Stimuli\STIMULI_VIDEO\SelectedStimuli');
-%addpath('C:/Users/natad/Documents/SMC/Master Thesis/Stimuli/STIMULI_VIDEO/SelectedStimuli');
-
-fs = 4100;
-
-%% CREATE VIDEO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% GENERATE AUDIO %%
-% read files from folder
-cd 'C:\Users\natad\Documents\SMC\Master Thesis\Stimuli\STIMULI_VIDEO\SelectedStimuli'
+%% Only One Stimuli Files %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Read files from folder
+folderDir = [mainPath '\OnlyOneStimuli'];
+cd(folderDir)
 dirlist = dir('*.wav');
 lenList = length(dirlist);
+
+% Initialize audio output and list of filenames to output
 audio = [];
 fileNames_audio = strings((lenList*3)+3);
 
 % Randomize audio files
 r_index = randperm(lenList);
 
-% store audios
+% Store audios & save the order in cvs file
 fileNames_audio(1) = 'Only audio stimuli:';
 for i = 1: lenList
     audio_filename = dirlist(r_index(i)).name;
@@ -42,31 +50,40 @@ for i = 1: lenList
     audio = [audio; y];
     audio = [audio; pause];
 end
-%add silence for images
+
+%% Add silence for images (only visual stimuli)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1: 12
     audio = [audio; pause];
     audio = [audio; stimuli_silence];
 end
 
-% new audio order for coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% store audios
+%% new audio order for coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+folderDir = [mainPath '\CoherentStimuli'];
+cd(folderDir)
+dirlist = dir('*.wav');
+lenList = length(dirlist);
+
+% Store audios & save the order in cvs file
 r_index_coherent = randperm(lenList);
 fileNames_audio(lenList+2) = 'Coherent audio+image stimuli:';
 for i = 1: lenList
-    %audio_filename = dirlist(r_index_coherent(i)).name;
-    audio_filename = dirlist(i).name;
+    audio_filename = dirlist(r_index_coherent(i)).name;
     fileNames_audio(i+lenList+2) = audio_filename;
     [y,fs] = audioread(audio_filename);
     y = y(1:(fs*lenStimuli),:);
     audio = [audio; y; pause];
-   % audio = [audio; pause];
 end
 
-% new audio order for non-coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% New audio order for non-coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+folderDir = [mainPath '\NonCoherentStimuli'];
+cd(folderDir)
+dirlist = dir('*.wav');
+lenList = length(dirlist);
+
 % Randomize audio files
 r_index = randperm(lenList);
 
-% store audios
+% Store audios & save the order in cvs file
 fileNames_audio((lenList*2)+3) = 'Non coherent audio+image stimuli:';
 for i = 1: lenList
     audio_filename = dirlist(r_index(i)).name;
@@ -77,14 +94,12 @@ for i = 1: lenList
     audio = [audio; pause];
 end
 
-%sound(audio,fs)
-
-% write audio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Write audio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cd ..
 audiowrite(audio_output_filename,audio,fs);
 
-% write audio file names %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fid = fopen('audioFileNames.csv', 'w');
+%% Write audio file names in csv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fid = fopen(audio_filename_csv, 'w');
 fprintf(fid, 'Audio File Names: \n');
 for i = 1: length(fileNames_audio)
     fprintf(fid, '%s\n', fileNames_audio(i));
@@ -92,36 +107,24 @@ end
 
 fclose(fid) ;
 
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 %% CREATE IMAGES VIDEO %%
-
-workingDir = 'C:\Users\natad\Documents\SMC\Master Thesis\Stimuli\STIMULI_VIDEO';
+% Inititalize video (take )
 mkdir(workingDir)
 mkdir(workingDir,'images')
 
-shuttleVideo = VideoReader('imageStimuliOutput.avi');
-
-ii = 1;
-
-while hasFrame(shuttleVideo)
-   img = readFrame(shuttleVideo);
-   filename = [sprintf('%03d',ii) '.jpg'];
-   fullname = fullfile(workingDir,'images',filename);
-   imwrite(img,fullname)    % Write out to a JPEG file (img1.jpg, img2.jpg, etc.)
-   ii = ii+1;
-end
-
-
-outputVideo = VideoWriter(fullfile(workingDir,'shuttle_out.avi'));
-outputVideo.FrameRate = shuttleVideo.FrameRate;
+outputVideo = VideoWriter(fullfile(workingDir,visual_output_filename));
+outputVideo.FrameRate = 30;
 open(outputVideo)
 
-imageNames = dir(fullfile(workingDir,'SelectedStimuli','*.jpg'));
-imageNames = {imageNames.name}';
-lenList = length(imageNames);
+folderDir = [mainPath '\OnlyOneStimuli'];
+cd(folderDir)
+dirlist = dir('*.jpg');
+lenList = length(dirlist);
 fileNames_image = strings((lenList*3)+3);
 
-% add white image for only audio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-img = imread(fullfile(workingDir,'SelectedStimuli',imageNames{1}));
+%% Add white image for only audio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+img = imread(dirlist(1).name);
 white = img;
 white(:,:,:) = 255;
 for ii = 1:lenList
@@ -130,13 +133,13 @@ for ii = 1:lenList
    end
 end
 
-% only image stimuli %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Only image stimuli %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 r_index = randperm(lenList);
 fileNames_image(1) = 'Only image stimuli:';
 for ii = 1:lenList
    for j = 1: lenStimuli * outputVideo.FrameRate
-       img = imread(fullfile(workingDir,'SelectedStimuli',imageNames{r_index(ii)}));
-       fileNames_image(i+1) = imageNames{r_index(ii)};
+       img = imread(dirlist(r_index(ii)).name);
+       fileNames_image(ii+1) = dirlist(r_index(ii)).name;
        writeVideo(outputVideo,img)
    end
    for j = 1: lenPause * outputVideo.FrameRate
@@ -144,12 +147,17 @@ for ii = 1:lenList
    end
 end
 
-% new image order for coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% New image order for coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+folderDir = [mainPath '\CoherentStimuli'];
+cd(folderDir)
+dirlist = dir('*.jpg');
+lenList = length(dirlist);
+
 fileNames_image(1) = 'Coherent audio+image:';
 for ii = 1:lenList
    for j = 1: lenStimuli * outputVideo.FrameRate
-       img = imread(fullfile(workingDir,'SelectedStimuli',imageNames{r_index_coherent(ii)}));
-       fileNames_image(i+lenList+2) = imageNames{r_index(ii)};
+       img = imread(dirlist(r_index_coherent(ii)).name);
+       fileNames_image(ii+lenList+2) = dirlist(r_index_coherent(ii)).name;
        writeVideo(outputVideo,img)
    end
    for j = 1: lenPause * outputVideo.FrameRate
@@ -157,13 +165,18 @@ for ii = 1:lenList
    end
 end
 
-% new image order for non-coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% New image order for non-coherent audio+image %%%%%%%%%%%%%%%%%%%%%%%%%%%
+folderDir = [mainPath '\NonCoherentStimuli'];
+cd(folderDir)
+dirlist = dir('*.jpg');
+lenList = length(dirlist);
+
 r_index = randperm(lenList);
 fileNames_image(1) = 'Non-coherent audio+image:';
 for ii = 1:lenList
    for j = 1: lenStimuli * outputVideo.FrameRate
-       img = imread(fullfile(workingDir,'SelectedStimuli',imageNames{r_index(ii)}));
-       fileNames_image(i+(lenList*2)+3) = imageNames{r_index(ii)};
+       img = imread(dirlist(r_index(ii)).name);
+       fileNames_image(ii+(lenList*2)+3) = dirlist(r_index(ii)).name;
        writeVideo(outputVideo,img)
    end
    for j = 1: lenPause * outputVideo.FrameRate
@@ -172,8 +185,9 @@ for ii = 1:lenList
 end
 close(outputVideo)
 
-% write image file names %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fid = fopen('imageFileNames.csv', 'w');
+%% Write image file names in csv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+cd ..
+fid = fopen(video_filename_csv, 'w');
 fprintf(fid, 'Image File Names: \n');
 for i = 1: length(fileNames_image)
     fprintf(fid, '%s\n', fileNames_image(i));
@@ -181,35 +195,3 @@ end
 
 fclose(fid) ;
 
-
-% %initalize video
-% v = VideoWriter(visual_output_filename, 'Archival');
-% v.FrameRate = 1; 
-%     %movie = avifile(filename, 'fps', 10, 'compression', 'none');
-% open(v)
-% 
-% 
-% % add blanc image for audio
-% cd 'C:\Users\natad\Documents\SMC\Master Thesis\Stimuli\STIMULI_VIDEO\SelectedStimuli'
-% white = imread('C1.jpg');
-% 
-% for v = 1:(lenStimuli + lenPause)*12
-%    %frame=getframe(white);
-%    writeVideo(v,white)
-% end
-% 
-% % add first images
-% dirlist = dir('*.jpg');
-% for i =  1: len(dirlist)
-%     imag_filename = dirlist.name(i);
-%     image = imread(imag_filename);
-%     writeVideo(v,image);
-%     %frame = im2frame(image);
-%     %movie = addframe(movie, frame);
-%     for v = 1:lenStimuli
-%         writeVideo(v,image)
-%     end
-% end
-% %close
-% close(v)
-%     %movie = close(movie);
