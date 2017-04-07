@@ -7,6 +7,7 @@ clear all; close all; clc
 lenStimuli = 10; %(sec)
 lenPause = 10;  %(sec)
 workingDir = 'C:\Users\natad\Documents\SMC\MasterThesis\Stimuli\STIMULI_VIDEO';
+videoFlag = 2; % 1 for first video, 2 for second video (to randomize non-coherent stimuli)
 
 % Output filenames
 audio_output_filename = 'Audio_Output.wav';
@@ -80,8 +81,12 @@ cd(folderDir)
 dirlist = dir('*.wav');
 lenList = length(dirlist);
 
-% Randomize audio files
-r_index = randperm(lenList);
+% Random for non-coherent:
+if videoFlag == 1
+    r_index = [5 9 3 1 11 12 6 4 7 8 10 2];
+elseif videoFlag == 2
+    r_index = [8 5 3 10 6 1 11 4 12 9 2 7];
+end
 
 % Store audios & save the order in cvs file
 fileNames_audio((lenList*2)+3) = 'Non coherent audio+image stimuli:';
@@ -153,7 +158,7 @@ cd(folderDir)
 dirlist = dir('*.jpg');
 lenList = length(dirlist);
 
-fileNames_image(1) = 'Coherent audio+image:';
+fileNames_image(lenList+2) = 'Coherent audio+image stimuli:';
 for ii = 1:lenList
    for j = 1: lenStimuli * outputVideo.FrameRate
        img = imread(dirlist(r_index_coherent(ii)).name);
@@ -171,8 +176,15 @@ cd(folderDir)
 dirlist = dir('*.jpg');
 lenList = length(dirlist);
 
-r_index = randperm(lenList);
-fileNames_image(1) = 'Non-coherent audio+image:';
+% Random for non-coherent:
+if videoFlag == 1
+    r_index = [12 11 9 5 4 3 1 7 2 6 8 10];
+elseif videoFlag == 2
+    r_index = [6 10 7 9 1 4 5 8 2 12 11 3];
+end
+
+
+fileNames_image((lenList*2)+3) = 'Non coherent audio+image stimuli:';
 for ii = 1:lenList
    for j = 1: lenStimuli * outputVideo.FrameRate
        img = imread(dirlist(r_index(ii)).name);
