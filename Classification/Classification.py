@@ -60,20 +60,47 @@ def compareResultExpected(response, expected):
 
 	return percentage
 
-def write_csv(data, filname):
+def write_csv(data, filname, average):
+	ML = ['SVM', 'kNN', 'DT']
 	with open(filname, 'wb') as f:
 		writer = csv.writer(f)
-		for line in data: writer.writerow(line)
+		if average == 1:
+			print 'IN'
+			first_line = [' ', 'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5']
+			writer.writerow(first_line)
+			count = 0
+			for line in data:
+				newline = [ML[count] , line[0], line[1], line[2], line[3], line[4]]
 
-def subjectsAverage(path):
-	all_results = np.zeros((3,5))
-	newpath = path + 'Results/'
-	listOfResults = listdir(newpath)
+
+				print'new lineee'
+				print newline
+				writer.writerow(newline)
+				count += 1
+
+		else:		
+			for line in data: writer.writerow(line)
+
+def subjectsAverage(path, flag):
+	print path
+	if flag == 1: all_results = np.zeros(5)
+	else: all_results = np.zeros((3,5))
+	print 'PATHH'
+	print path
+	listOfResults = listdir(path)
+	print 'list of resuls:'
+	print listOfResults
+
 	for result in listOfResults:
-		with open(newpath + result) as f:
+		print result
+		data_temp = []
+		with open(path + result) as f:
 			reader = csv.reader(f)
 			for line in reader: data_temp.append(line)
-		all_results = all_results + data_temp
+
+		print data_temp
+		print np.array(data_temp, dtype=np.float32)
+		all_results = all_results + np.array(data_temp, dtype=np.float32)
 
 	averageResult = all_results/7
 	return averageResult
@@ -120,16 +147,25 @@ for subject in listOfSubjects:
 
 		# Expected vs Response
 		Response_vs_Expected[int(stimuli_class[20])-1] = compareResultExpected(response = response, expected = expected)
-	print Response_vs_Expected
 
-	write_csv(EEG_Expected_score, path + 'Results/'+ 'EEG_Expected/' + subject[7] + 'EEG_Expected.csv')
-	write_csv(EEG_Response_score, path + 'Results/' + 'EEG_Response/' + subject[7]+'EEG_Response.csv')
-	#write_csv(Response_vs_Expected, path + 'Results/' + 'Response_vs_Expected/' + subject[7] + 'Response_vs_Expected.csv')
+	write_csv(EEG_Expected_score, path + 'Results/'+ 'EEG_Expected/' + subject[7] + 'EEG_Expected.csv', average = 0)
+	write_csv(EEG_Response_score, path + 'Results/' + 'EEG_Response/' + subject[7]+'EEG_Response.csv', average = 0)
+	write_csv([Response_vs_Expected], path + 'Results/' + 'Response_vs_Expected/' + subject[7] + 'Response_vs_Expected.csv', average = 0)
 
 # Compute average
-averageResult = subjectsAverage(path)
-print averageResult
+# Compute average
+newpath = path + 'Results/'
+listOfResultFolders = listdir(newpath)
+flag = 0
 
+for folder in listOfResultFolders:
+	print folder
+	if folder == 'Response_vs_Expected': flag = 1
+	averageResult = subjectsAverage(newpath + folder+ '/', flag)
+
+write_csv(EEG_Expected_score, path + 'Average_Results/'+ 'Average_EEG_Expected.csv', average = 1)
+write_csv(EEG_Response_score, path + 'Average_Results/'  + 'Average_EEG_Response.csv', average = 1)
+write_csv([Response_vs_Expected], path + 'Average_Results/' + 'Average_Response_vs_Expected.csv', average = 1)
 
 
 
