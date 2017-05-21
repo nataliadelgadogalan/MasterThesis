@@ -6,7 +6,7 @@ The first task was the generation of video containing the stimuli desired to car
 all excepts had the same length and to have possibility of easily changing the length of pauses or stimuli, and to change some stimuli 
 id desired.
 
-The second is EEG feature extraction (still to be uploaded). OpenVibe is required for this part. It extracts alpha, beta, theta, gamma, 
+The second is EEG feature extraction. OpenVibe is required for this part. It extracts alpha, beta, theta, gamma, 
 and various combinations of arousal and valence comptured from the previous. These are the most relevant features to observe what we wish
 in this project.
 
