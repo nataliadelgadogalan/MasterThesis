@@ -1,0 +1,40 @@
+Audio File Names: 
+Only audio stimuli:
+S1.wav
+S2.wav
+S3.wav
+A2.wav
+A3.wav
+H2.wav
+C1.wav
+H3.wav
+A1.wav
+C2.wav
+H1.wav
+C3.wav
+Coherent audio+image stimuli:
+C_H3.wav
+C_H2.wav
+C_A3.wav
+C_H1.wav
+C_A2.wav
+C_S2.wav
+C_T2.wav
+C_A1.wav
+C_T1.wav
+C_T3.wav
+C_S1.wav
+C_S3.wav
+Non coherent audio+image stimuli:
+NC_A3.wav
+NC_T1.wav
+NC_S2.wav
+NC_T2.wav
+NC_S1.wav
+NC_H2.wav
+NC_S3.wav
+NC_H1.wav
+NC_A1.wav
+NC_T3.wav
+NC_A2.wav
+NC_H3.wav
