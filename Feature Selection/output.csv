@@ -1,0 +1,13 @@
+ ,Subject 1,Subject 2,Subject 3,Subject 4,Subject 5,Subject 6,Subject 7
+Harmony,tonal.chords_histogram.19,tonal.chords_histogram.15,tonal.chords_key,tonal.chords_histogram.23,tonal.chords_histogram.16,tonal.hpcp.mean.2,tonal.chords_histogram.4
+Harmony,tonal.chords_histogram.11,tonal.chords_histogram.3,tonal.thpcp.13,tonal.hpcp.mean.14,tonal.tuning_equal_tempered_deviation,tonal.chords_histogram.3,tonal.hpcp_entropy.mean
+Harmony,tonal.chords_histogram.8,tonal.chords_histogram.20,tonal.chords_histogram.20,tonal.chords_histogram.6,tonal.hpcp.mean.35,tonal.hpcp.mean.1,tonal.chords_histogram.18
+Melody,lowlevel.mfcc.cov.11.0,lowlevel.mfcc.cov.0.0,lowlevel.mfcc.icov.1.10,lowlevel.gfcc.cov.12.1,lowlevel.mfcc.icov.12.12,lowlevel.mfcc.icov.9.3,lowlevel.silence_rate_20dB.mean
+Melody,lowlevel.melbands.mean.7,lowlevel.silence_rate_30dB.mean,lowlevel.melbands.mean.21,lowlevel.mfcc.cov.3.11,lowlevel.mfcc.icov.9.3,lowlevel.spectral_rms.mean,lowlevel.melbands.mean.0
+Melody,lowlevel.melbands.mean.29,lowlevel.silence_rate_60dB.mean,lowlevel.mfcc.icov.10.1,lowlevel.gfcc.cov.1.12,lowlevel.mfcc.icov.0.12,lowlevel.mfcc.icov.3.9,lowlevel.gfcc.icov.11.11
+Rhythm,rhythm.beats_count,rhythm.beats_count,rhythm.danceability,rhythm.beats_count,rhythm.danceability,rhythm.beats_count,rhythm.beats_count
+Rhythm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm
+Rhythm,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean
+Timbre,lowlevel.barkbands.mean.3,lowlevel.erbbands.mean.14,lowlevel.erbbands.mean.20,lowlevel.erbbands.mean.21,lowlevel.barkbands.mean.24,lowlevel.barkbands.mean.15,lowlevel.barkbands.mean.16
+Timbre,lowlevel.barkbands.mean.2,lowlevel.dynamic_complexity,lowlevel.barkbands.mean.16,lowlevel.erbbands.mean.10,lowlevel.barkbands.mean.25,lowlevel.dynamic_complexity,lowlevel.erbbands.mean.0
+Timbre,lowlevel.barkbands.mean.21,lowlevel.barkbands.mean.18,lowlevel.erbbands.mean.21,lowlevel.barkbands_skewness.mean,lowlevel.erbbands.mean.18,lowlevel.barkbands.mean.2,lowlevel.barkbands_kurtosis.mean
