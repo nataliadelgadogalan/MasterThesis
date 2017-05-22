@@ -23,8 +23,12 @@ def readfile(filename, flag):
 			else: 
 				data_temp.append(line[:-2])
 
-	names = data_temp[0]
-	attributes = np.array(data_temp[1:], dtype=np.float32)
+	if flag == 0:
+		attributes = np.array(data_temp, dtype=np.float32)
+		names = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
+	else:
+		names = data_temp[0]
+		attributes = np.array(data_temp[1:], dtype=np.float32)
 
 	return names, attributes
 
@@ -97,6 +101,8 @@ def plotCorrelations (cMatrix, x_label, y_label, plotName):
 newpath = path + 'Data/'
 listOfSubjects = listdir(newpath)
 
+AverageMatrixCorrelation =np.zeros((12, 6))
+
 for subject in listOfSubjects:
 
 	# READ FILES OF FEATURES
@@ -118,10 +124,16 @@ for subject in listOfSubjects:
 	PcorrMatrixG1G1, McorrMatrixG1G1=correlation(X=AF_norm,Y=EF_norm, sizeX=sizeAF, sizeY=sizeEF)
 	abs_corrMatrix = abs(PcorrMatrixG1G1)
 
+	### COMPUTE AVERAGE CORRELATION MATRIX ####
+	AverageMatrixCorrelation = AverageMatrixCorrelation + abs_corrMatrix[0]
+
 	### CORRELATIONS RANKING ###
 	print 'Maximum correlations between audio features and EEG features for pearson correlation:'
-	maxValues, indexMaxValues = rankCorrelation (abs_corrMatrix[0][1:,1:], type = 1)
+	maxValues, indexMaxValues = rankCorrelation (abs_corrMatrix[0][:,:], type = 1)
 	printRank(maxValues = maxValues, indexMaxValues = indexMaxValues, Vocab1 = audioFeatureNames, Vocab2 = EEGFeatureNames)
 
 	### HEATMAPS ###
-	plotCorrelations (cMatrix = abs_corrMatrix[0][1:,1:], x_label = 'Audio features', y_label = 'EEG features', plotName = newpath + subject + '/Correlation_Matrix.png')
+	plotCorrelations (cMatrix = abs_corrMatrix[0][:,:], x_label = 'EEG features', y_label = 'Audio features', plotName = path + 'CorrelationMatrix/' + 'Correlation_Matrix_'+ subject[7] +'.png')
+
+AverageMatrixCorrelation = AverageMatrixCorrelation/7
+plotCorrelations (cMatrix = AverageMatrixCorrelation, x_label = 'EEG features', y_label = 'Audio features', plotName = path + 'CorrelationMatrix/' + 'AverageCorrelation_Matrix_'+'.png')
