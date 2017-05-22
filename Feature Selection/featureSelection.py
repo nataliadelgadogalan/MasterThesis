@@ -5,18 +5,13 @@ from sklearn import svm, datasets, feature_selection
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 
-path = 'C:/Users/natad/Documents/SMC/MasterThesis/CORRELATIONS/'
+path = 'C:/Users/natad/Documents/SMC/MasterThesis/FeatureSelection/'
 listOfVideos = listdir(path + 'AudioFeatures/')
 
 
 # To change depending on number of feature types (4), number of features per type desired (3) [3*4=12]
 # and number of subjects (7)
 final_features = [['']*8 for i in range(12)]
-
-print final_features
-final_features[3][2] = 'ueeee'
-final_features[4][1] = 'aaaa'
-print final_features
 n_audiofeatures = 3
 output_name = 'SelectedFeatures_Typical.csv'
 # It is also recommended to name files as in the example, so that further naming of files fit
@@ -97,19 +92,21 @@ for video in listOfVideos:
 
 		# For all subjects in video folder
 		for EEGfile in listOfEEGFiles:
+			# initialise k for arousalValenceRanker
 			n_features = 5
 			print EEGfile
+
 			# Read EEG data
 			EEGFeature_names, eeg_feature = readfile(path + 'EEGFeatures/' + video + '/' + EEGfile)
 
 			# Arousal and Valence Ranking
 			y = eeg_feature[:,1]
-
 			indexes = arousalValenceRanker(audio_feature= audio_feature, eeg_feature = eeg_feature,  n_features = n_features)
-			rows = audio_feature.shape
+			sizeAF = audio_feature.shape
 			print 'rows'
-			rows = rows[1]
+			rows = sizeAF[1]
 			print rows
+
 			# to avoid searching for too many or too few features, k is initialised at 5 and increased in not enough have been found
 			while len(indexes) < 3:
 				indexes = arousalValenceRanker(audio_feature= audio_feature, eeg_feature = eeg_feature,  n_features = n_features)
@@ -117,32 +114,32 @@ for video in listOfVideos:
 				# to avoid selecting more attributes than existing...
 				if n_features > rows: n_features = rows 
 
+			# Store matrix with all selected features per subject
+			#AudioFeaturesSelected = np.zeros((sizeAF[0], 3))
+			AudioFeaturesSelected = audio_feature[:,indexes[0:3]]
+			print AudioFeaturesSelected
+			newFilename = path + 'SelectedFeatures/'+ EEGfile[7] + '_' + file[:-4] +'.csv'
+			with open(newFilename, 'wb') as f:
+				writer = csv.writer(f)
+				for line in AudioFeaturesSelected: writer.writerow(line)
+
+
 			# Store in matrix features corresponding to the indexes 
 			for i in range (0,3):
 				final_features[feature_counter + i][int(EEGfile[7])] = AFeature_names[indexes[i]]
 			#final_features[feature_counter : feature_counter+3, int(EEGfile[7])-1] = indexes[0:3]
 
 
-	 		print final_features
-
+		print indexes
  	 		
 
 
  # Save features per subject in a csv
-#with open(path + 'SelectedFeatures/' + output_name , 'wb') as f:
-with open('output.csv', 'wb') as f:
+with open(path + output_name , 'wb') as f:
+#with open('output.csv', 'wb') as f:
 	writer = csv.writer(f)
 	first_line = [' ', 'Subject 1', 'Subject 2', 'Subject 3', 'Subject 4', 'Subject 5','Subject 6','Subject 7']
 	writer.writerow(first_line)
 	for line in final_features:
 		writer.writerow(line)
-
 		
-
-
-# Hacer buena clasificación de los low level features
-# Comprobar que estos features tienen sentido
-
-# Hacer classification: svm, knn, ...
-
-# Hacer correlacion
