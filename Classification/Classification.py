@@ -3,6 +3,7 @@ import csv
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import svm, neighbors, tree
+import matplotlib.pyplot as plt
 
 
 path  = 'C:/Users/natad/Documents/SMC/MasterThesis/DataPostprocessing/Classification/'
@@ -60,21 +61,19 @@ def compareResultExpected(response, expected):
 
 	return percentage
 
-def write_csv(data, filname, average):
+def write_csv(data, filname, average, flag):
 	ML = ['SVM', 'kNN', 'DT']
 	with open(filname, 'wb') as f:
 		writer = csv.writer(f)
+
 		if average == 1:
-			print 'IN'
 			first_line = [' ', 'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5']
 			writer.writerow(first_line)
 			count = 0
+
 			for line in data:
-				newline = [ML[count] , line[0], line[1], line[2], line[3], line[4]]
-
-
-				print'new lineee'
-				print newline
+				if flag == 1: newline = ['Average Score' , line[0], line[1], line[2], line[3], line[4]]
+				else: newline = [ML[count] , line[0], line[1], line[2], line[3], line[4]]
 				writer.writerow(newline)
 				count += 1
 
@@ -104,6 +103,23 @@ def subjectsAverage(path, flag):
 
 	averageResult = all_results/7
 	return averageResult
+
+def plot(eeg_feature, expected, plotName):
+	size_y = eeg_feature.shape
+	legend = ['Agressive', 'Calm', 'Happy', 'Sad']
+	colours = ['r', 'b', 'c', 'g']
+	fig, ax = plt.subplots()
+	for i in range (0, size_y[0] ):
+		Arousal = eeg_feature[i,1]
+		Valence = eeg_feature[i,5]
+		answer = expected[i]
+		index = [k for k,x in enumerate(legend) if x==answer]
+		ax.scatter(Valence, Arousal, color = colours[index[0]])
+		ax.set_xlabel('Valence')
+		ax.set_ylabel('Arousal')
+	#plt.show()
+	plt.savefig(plotName)
+	
 
 
 
@@ -148,9 +164,12 @@ for subject in listOfSubjects:
 		# Expected vs Response
 		Response_vs_Expected[int(stimuli_class[20])-1] = compareResultExpected(response = response, expected = expected)
 
-	write_csv(EEG_Expected_score, path + 'Results/'+ 'EEG_Expected/' + subject[7] + 'EEG_Expected.csv', average = 0)
-	write_csv(EEG_Response_score, path + 'Results/' + 'EEG_Response/' + subject[7]+'EEG_Response.csv', average = 0)
-	write_csv([Response_vs_Expected], path + 'Results/' + 'Response_vs_Expected/' + subject[7] + 'Response_vs_Expected.csv', average = 0)
+		# Plot arousal vs valence with expected response, to search for a match
+		plot(eeg_feature = attributes, expected = expected, plotName = path +'Plots/'+ subject + '_' + stimuli_class[:-4] + '.png')
+
+	write_csv(EEG_Expected_score, path + 'Results/'+ 'EEG_Expected/' + subject[7] + 'EEG_Expected.csv', average = 0, flag =0)
+	write_csv(EEG_Response_score, path + 'Results/' + 'EEG_Response/' + subject[7]+'EEG_Response.csv', average = 0, flag = 0)
+	write_csv([Response_vs_Expected], path + 'Results/' + 'Response_vs_Expected/' + subject[7] + 'Response_vs_Expected.csv', average = 0, flag = 0)
 
 # Compute average
 # Compute average
@@ -163,9 +182,9 @@ for folder in listOfResultFolders:
 	if folder == 'Response_vs_Expected': flag = 1
 	averageResult = subjectsAverage(newpath + folder+ '/', flag)
 
-write_csv(EEG_Expected_score, path + 'Average_Results/'+ 'Average_EEG_Expected.csv', average = 1)
-write_csv(EEG_Response_score, path + 'Average_Results/'  + 'Average_EEG_Response.csv', average = 1)
-write_csv([Response_vs_Expected], path + 'Average_Results/' + 'Average_Response_vs_Expected.csv', average = 1)
+write_csv(EEG_Expected_score, path + 'Average_Results/'+ 'Average_EEG_Expected.csv', average = 1, flag = 0)
+write_csv(EEG_Response_score, path + 'Average_Results/'  + 'Average_EEG_Response.csv', average = 1, flag = 0)
+write_csv([Response_vs_Expected], path + 'Average_Results/' + 'Average_Response_vs_Expected.csv', average = 1, flag = 1)
 
 
 
