@@ -50,7 +50,9 @@ def knn_classification(attributes, target):
 def Dtree_classification(attributes, target):
 	X_train, X_test, y_train, y_test = train_test_split(attributes, target, test_size=0.25, random_state=0)
 	clf = tree.DecisionTreeClassifier().fit(X_train, y_train)
-	scoreKnn = clf.score(X_test, y_test)
+	scoreDT = clf.score(X_test, y_test)
+
+	return scoreDT
 
 def compareResultExpected(response, expected):
 	sum = 0.0
@@ -180,8 +182,6 @@ def computeCentroid(data1, data2, type):
 		centroidV = sum(data2)/len(data2)
 	if type == 1:
 		s = len(data1)
-		print 'LEEN'
-		print data1[0]
 		lenData1 = 0
 		sumData1 = 0
 		lenData2 = 0
@@ -216,7 +216,7 @@ def tuple_to_array(data):
 
 ##### START CODE ################################
 
-listOfSubjects = listdir(path + 'Data/')
+listOfSubjects = listdir(path + 'Data_ASD/')
 Classes = ['Audio', 'Visual', 'Coh_Audio-Visual', 'inc_Audio-Visual_A', 'inc_Audio-Visual_V']
 AgressiveAFinal = []
 CalmAFinal = []
@@ -229,7 +229,7 @@ SadVFinal = []
 
 #For each subject...
 for subject in listOfSubjects:
-	newpath = path + 'Data/' + subject + '/'
+	newpath = path + 'Data_ASD/' + subject + '/'
 	listOfStimuliClass = listdir(newpath)
 	print 'Subject ' + subject [3]
 	EEG_Expected_score = np.zeros((3,5))
@@ -239,8 +239,6 @@ for subject in listOfSubjects:
 
 	# For each stimuli class...
 	for stimuli_class in listOfStimuliClass:
-		print 'ST'
-		print stimuli_class
 
 		# Read features and data to be classified (all contained in same file)
 		attribute_names, attributes, expected, response = readfile(newpath + stimuli_class)
@@ -289,9 +287,9 @@ for subject in listOfSubjects:
 			SadAFinal.append(SadDA)
 
 	# Store average data
-	write_csv(EEG_Expected_score, path + 'Results/'+ 'EEG_Expected/' + subject[3] + 'EEG_Expected.csv', average = 0, flag =0)
-	write_csv(EEG_Response_score, path + 'Results/' + 'EEG_Response/' + subject[3]+'EEG_Response.csv', average = 0, flag = 0)
-	write_csv([Response_vs_Expected], path + 'Results/' + 'Response_vs_Expected/' + subject[3] + 'Response_vs_Expected.csv', average = 0, flag = 0)
+	write_csv(EEG_Expected_score, path + 'Results_ASD/'+ 'EEG_Expected/' + subject[3] + 'EEG_Expected.csv', average = 0, flag =0)
+	write_csv(EEG_Response_score, path + 'Results_ASD/' + 'EEG_Response/' + subject[3]+'EEG_Response.csv', average = 0, flag = 0)
+	write_csv([Response_vs_Expected], path + 'Results_ASD/' + 'Response_vs_Expected/' + subject[3] + 'Response_vs_Expected.csv', average = 0, flag = 0)
 
 
 #print AgressiveFinal
@@ -314,12 +312,12 @@ ax.set_ylabel('Arousal')
 
 title = 'Average Arousal-Valence Centroids for Audio Stimuli'
 plt.title(title)
-plt.savefig(path +'Plots/'+ 'CentroidsAV_class1.png')
+plt.savefig(path +'Plots_ASD/'+ 'CentroidsAV_class1.png')
 
 	
 # Compute average
 # Compute average
-newpath = path + 'Results/'
+newpath = path + 'Results_ASD/'
 listOfResultFolders = listdir(newpath)
 flag = 0
 
@@ -328,9 +326,9 @@ for folder in listOfResultFolders:
 	if folder == 'Response_vs_Expected': flag = 1
 	averageResult = subjectsAverage(newpath + folder+ '/', flag)
 
-write_csv(EEG_Expected_score, path + 'Average_Results/'+ 'Average_EEG_Expected.csv', average = 1, flag = 0)
-write_csv(EEG_Response_score, path + 'Average_Results/'  + 'Average_EEG_Response.csv', average = 1, flag = 0)
-write_csv([Response_vs_Expected], path + 'Average_Results/' + 'Average_Response_vs_Expected.csv', average = 1, flag = 1)
+write_csv(EEG_Expected_score, path + 'Average_Results_ASD/'+ 'Average_EEG_Expected.csv', average = 1, flag = 0)
+write_csv(EEG_Response_score, path + 'Average_Results_ASD/'  + 'Average_EEG_Response.csv', average = 1, flag = 0)
+write_csv([Response_vs_Expected], path + 'Average_Results_ASD/' + 'Average_Response_vs_Expected.csv', average = 1, flag = 1)
 
 
 
