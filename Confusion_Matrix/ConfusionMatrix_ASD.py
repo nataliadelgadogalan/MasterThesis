@@ -30,13 +30,13 @@ def readfile(filename):
 
 
 def confusionMatrix(response, expected):
-	labels = ['Agressive', 'Calm', 'Happy', 'Sad', '']
+	labels = ['Agressive', 'Calm', 'Happy', 'Sad', '', '?']
 	confMatrix = np.zeros((4,4))
 
 	for i in range(0, len(response)):
 		R = labels.index(response[i])
 		E = labels.index(expected[i])
-		if R != 4: confMatrix[R,E] += 1
+		if R < 4: confMatrix[R,E] += 1
 
 	return confMatrix
 
@@ -59,7 +59,7 @@ def plotMatrix(confMatrix, plotName):
 	plt.xticks(range(0,4),labels)
 	plt.yticks(range(0,4),labels[::-1])
 	title = 'Confusion Matrix for ASD Subjects: ' + plotName[87:-4]
-	plt.title(title)
+	#plt.title(title)
 	#sns.plt.show()
 	#fig = ax.get_figure()
 	#fig.savefig(plotName)
@@ -93,7 +93,7 @@ for subject in listOfSubjects:
 		
 		normConfMatrix = normalizeMatrix(confMatrix)
 		print normConfMatrix
-		plotMatrix(normConfMatrix, plotName = path + 'OutputASD/Subject' + subject[3] + '_' + Classes[int(stimuli_class[10])-1] + '.png')
+		plotMatrix(normConfMatrix, plotName = path + 'OutputASD_noTitle/Subject' + subject[3] + '_' + Classes[int(stimuli_class[10])-1] + '.png')
 
 		# add values to average matrix
 		if int(stimuli_class[10]) == 1: averageConfMatrix_audio = averageConfMatrix_audio + confMatrix
@@ -106,27 +106,27 @@ for subject in listOfSubjects:
 #normalize and plot average matrix
 normConfMatrix = normalizeMatrix(averageConfMatrix_audio)
 #normConfMatrix = normalize(averageConfMatrix_audio, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_audio, plotName = path + 'OutputASD/Average_' + Classes[0] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_audio, plotName = path + 'OutputASD_noTitle/Average_' + Classes[0] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_visual)
 #normConfMatrix = normalize(averageConfMatrix_visual, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_visual, plotName = path + 'OutputASD/Average_' + Classes[1] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_visual, plotName = path + 'OutputASD_noTitle/Average_' + Classes[1] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_C)
 #normConfMatrix = normalize(averageConfMatrix_AV_C, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_C, plotName = path + 'OutputASD/Average_' + Classes[2] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_C, plotName = path + 'OutputASD_noTitle/Average_' + Classes[2] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_NC_A)
 #normConfMatrix = normalize(averageConfMatrix_AV_NC_A, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_NC_A, plotName = path + 'OutputASD/Average_' + Classes[3] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_NC_A, plotName = path + 'OutputASD_noTitle/Average_' + Classes[3] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_NC_V)
 #normConfMatrix = normalize(averageConfMatrix_AV_NC_V, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_NC_V, plotName = path + 'OutputASD/Average_' + Classes[4] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_NC_V, plotName = path + 'OutputASD_noTitle/Average_' + Classes[4] + 'Stimuli' + '.png')
 print normConfMatrix
 
 

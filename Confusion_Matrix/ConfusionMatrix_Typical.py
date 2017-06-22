@@ -59,7 +59,7 @@ def plotMatrix(confMatrix, plotName):
 	plt.xticks(range(0,4),labels)
 	plt.yticks(range(0,4),labels[::-1])
 	title = 'Confusion Matrix for Typical Subjects: ' + plotName[85:-4]
-	plt.title(title)
+	#plt.title(title)
 	#sns.plt.show()
 	#fig = ax.get_figure()
 	#fig.savefig(plotName)
@@ -106,27 +106,27 @@ for subject in listOfSubjects:
 #normalize and plot average matrix
 normConfMatrix = normalizeMatrix(averageConfMatrix_audio)
 #normConfMatrix = normalize(averageConfMatrix_audio, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_audio, plotName = path + 'OutputT/Average_' + Classes[0] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_audio, plotName = path + 'OutputT_noTitle/Average_' + Classes[0] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_visual)
 #normConfMatrix = normalize(averageConfMatrix_visual, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_visual, plotName = path + 'OutputT/Average_' + Classes[1] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_visual, plotName = path + 'OutputT_noTitle/Average_' + Classes[1] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_C)
 #normConfMatrix = normalize(averageConfMatrix_AV_C, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_C, plotName = path + 'OutputT/Average_' + Classes[2] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_C, plotName = path + 'OutputT_noTitle/Average_' + Classes[2] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_NC_A)
 #normConfMatrix = normalize(averageConfMatrix_AV_NC_A, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_NC_A, plotName = path + 'OutputT/Average_' + Classes[3] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_NC_A, plotName = path + 'OutputT_noTitle/Average_' + Classes[3] + 'Stimuli' + '.png')
 print normConfMatrix
 
 normConfMatrix = normalizeMatrix(averageConfMatrix_AV_NC_V)
 #normConfMatrix = normalize(averageConfMatrix_AV_NC_V, norm = 'l1', axis = 0)
-plotMatrix(averageConfMatrix_AV_NC_V, plotName = path + 'OutputT/Average_' + Classes[4] + 'Stimuli' + '.png')
+plotMatrix(averageConfMatrix_AV_NC_V, plotName = path + 'OutputT_noTitle/Average_' + Classes[4] + 'Stimuli' + '.png')
 print normConfMatrix
 
 
