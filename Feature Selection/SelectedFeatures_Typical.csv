@@ -1,13 +1,13 @@
  ,Subject 1,Subject 2,Subject 3,Subject 4,Subject 5,Subject 6,Subject 7
-Harmony,tonal.chords_histogram.19,tonal.chords_histogram.15,tonal.chords_histogram.15,tonal.chords_histogram.4,tonal.chords_histogram.3,tonal.thpcp.19,tonal.chords_histogram.4
-Harmony,tonal.chords_histogram.11,tonal.chords_histogram.3,tonal.hpcp.mean.27,tonal.hpcp.mean.3,tonal.chords_histogram.6,tonal.thpcp.26,tonal.hpcp_entropy.mean
-Harmony,tonal.chords_histogram.8,tonal.chords_histogram.20,tonal.chords_histogram.4,tonal.chords_histogram.2,tonal.chords_histogram.14,tonal.thpcp.24,tonal.chords_histogram.18
-Melody,lowlevel.mfcc.cov.11.0,lowlevel.mfcc.cov.0.0,lowlevel.gfcc.icov.11.2,lowlevel.gfcc.icov.0.3,lowlevel.mfcc.icov.5.0,lowlevel.mfcc.icov.3.9,lowlevel.silence_rate_20dB.mean
-Melody,lowlevel.melbands.mean.7,lowlevel.silence_rate_30dB.mean,lowlevel.gfcc.icov.2.11,lowlevel.mfcc.icov.8.8,lowlevel.mfcc.icov.9.5,lowlevel.melbands.mean.18,lowlevel.melbands.mean.0
-Melody,lowlevel.melbands.mean.29,lowlevel.silence_rate_60dB.mean,lowlevel.gfcc.icov.11.5,lowlevel.gfcc.icov.3.0,lowlevel.mfcc.icov.5.9,lowlevel.mfcc.icov.9.3,lowlevel.gfcc.icov.11.11
-Rhythm,rhythm.beats_count,rhythm.beats_count,rhythm.danceability,rhythm.danceability,rhythm.danceability,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.beats_count
-Rhythm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm_histogram_second_peak_bpm.mean,rhythm.bpm
-Rhythm,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.onset_rate,rhythm.bpm_histogram_second_peak_weight.mean,rhythm.bpm_histogram_first_peak_bpm.mean
-Timbre,lowlevel.barkbands.mean.3,lowlevel.erbbands.mean.14,lowlevel.barkbands.mean.7,lowlevel.erbbands.mean.13,lowlevel.barkbands.mean.0,lowlevel.barkbands.mean.19,lowlevel.barkbands.mean.16
-Timbre,lowlevel.barkbands.mean.2,lowlevel.dynamic_complexity,lowlevel.erbbands.mean.10,lowlevel.barkbands.mean.10,lowlevel.erbbands.mean.1,lowlevel.barkbands.mean.12,lowlevel.erbbands.mean.0
-Timbre,lowlevel.barkbands.mean.21,lowlevel.barkbands.mean.18,lowlevel.erbbands.mean.12,lowlevel.erbbands.mean.19,lowlevel.erbbands.mean.18,lowlevel.erbbands.mean.19,lowlevel.barkbands_kurtosis.mean
+Harmony,tonal.hpcp.mean.29,tonal.hpcp.mean.29,tonal.thpcp.11,,,,
+Harmony,tonal.chords_histogram.18,tonal.chords_histogram.18,tonal.thpcp.12,,,,
+Harmony,tonal.thpcp.31,tonal.thpcp.31,tonal.thpcp.13,,,,
+Melody,lowlevel.mfcc.icov.1.10,lowlevel.mfcc.icov.1.10,lowlevel.melbands.mean.20,,,,
+Melody,lowlevel.mfcc.icov.4.1,lowlevel.mfcc.icov.4.1,lowlevel.melbands.mean.21,,,,
+Melody,lowlevel.mfcc.icov.10.1,lowlevel.mfcc.icov.10.1,lowlevel.melbands.mean.17,,,,
+Rhythm,rhythm.bpm,rhythm.bpm,rhythm.danceability,,,,
+Rhythm,rhythm.bpm_histogram_second_peak_weight.mean,rhythm.bpm_histogram_second_peak_weight.mean,rhythm.bpm,,,,
+Rhythm,rhythm.bpm_histogram_second_peak_bpm.mean,rhythm.bpm_histogram_second_peak_bpm.mean,rhythm.bpm_histogram_first_peak_weight.mean,,,,
+Timbre,lowlevel.average_loudness,lowlevel.average_loudness,lowlevel.erbbands.mean.20,,,,
+Timbre,lowlevel.barkbands.mean.18,lowlevel.barkbands.mean.18,lowlevel.barkbands.mean.16,,,,
+Timbre,lowlevel.barkbands_skewness.mean,lowlevel.barkbands_skewness.mean,lowlevel.erbbands.mean.21,,,,

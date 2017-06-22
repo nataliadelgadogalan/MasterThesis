@@ -2,7 +2,7 @@ from os import listdir
 import csv
 import numpy as np
 
-path = 'C:/Users/natad/Documents/SMC/MasterThesis/FeatureSelection/SelectedFeatures/'
+path = 'C:/Users/natad/Documents/SMC/MasterThesis/FeatureSelection/'
 
 
 ######### FUNCTIONS######################
@@ -22,8 +22,8 @@ def readfile(filename):
 
 
 
-listOfFiles = listdir(path)
-audioFeatures = readfile(path + listOfFiles[0])
+listOfFiles = listdir(path + 'SelectedFeatures/')
+audioFeatures = readfile(path + 'SelectedFeatures/' + listOfFiles[0])
 sizeAF = audioFeatures.shape
 
 for i in range (0, len(listOfFiles), 4):
@@ -32,10 +32,10 @@ for i in range (0, len(listOfFiles), 4):
 	for k in range (0, 4):
 		print i+k
 		print listOfFiles[i+k]
-		audioFeatures = readfile(path + listOfFiles[i+k])
+		audioFeatures = readfile(path + 'SelectedFeatures/' + listOfFiles[i+k])
 		AudioFeaturesSelected[:,k*3:(k+1)*3] = audioFeatures
 
-	newFilename = path + 'SelectedAudioFeatures_Subject ' + listOfFiles[i+k][0]  +'.csv'
+	newFilename = path + 'FinalSelectedFeatures_Typical/' + 'SelectedAudioFeatures_Subject ' + listOfFiles[i+k][0]  +'.csv'
 	with open(newFilename, 'wb') as f:
 		writer = csv.writer(f)
 		for line in AudioFeaturesSelected: writer.writerow(line)

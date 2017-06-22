@@ -1,0 +1,13 @@
+ ,Subject 1,Subject 2,Subject 3,Subject 4,Subject 5,Subject 6,Subject 7
+Harmony,tonal.chords_histogram.19,tonal.chords_histogram.15,tonal.chords_histogram.15,tonal.chords_histogram.4,tonal.chords_histogram.3,tonal.thpcp.19,tonal.chords_histogram.4
+Harmony,tonal.chords_histogram.11,tonal.chords_histogram.3,tonal.hpcp.mean.27,tonal.hpcp.mean.3,tonal.chords_histogram.6,tonal.thpcp.26,tonal.hpcp_entropy.mean
+Harmony,tonal.chords_histogram.8,tonal.chords_histogram.20,tonal.chords_histogram.4,tonal.chords_histogram.2,tonal.chords_histogram.14,tonal.thpcp.24,tonal.chords_histogram.18
+Melody,lowlevel.pitch_salience.dmean,lowlevel.pitch_salience.dmean,lowlevel.pitch_salience.dmean,lowlevel.pitch_salience.dmean,lowlevel.pitch_salience.var,lowlevel.pitch_salience.var,lowlevel.pitch_salience.var
+Melody,lowlevel.pitch_salience.dmean2,lowlevel.pitch_salience.dmean2,lowlevel.pitch_salience.mean,lowlevel.pitch_salience.var,lowlevel.pitch_salience.dvar2,lowlevel.pitch_salience.mean,lowlevel.pitch_salience.dvar
+Melody,lowlevel.pitch_salience.dvar,lowlevel.pitch_salience.dvar2,lowlevel.pitch_salience.median,lowlevel.pitch_salience.dvar2,lowlevel.pitch_salience.max,lowlevel.pitch_salience.median,lowlevel.pitch_salience.mean
+Rhythm,rhythm.beats_count,rhythm.beats_count,rhythm.danceability,rhythm.danceability,rhythm.danceability,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.beats_count
+Rhythm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm,rhythm.bpm_histogram_second_peak_bpm.mean,rhythm.bpm
+Rhythm,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.bpm_histogram_first_peak_bpm.mean,rhythm.onset_rate,rhythm.bpm_histogram_second_peak_weight.mean,rhythm.bpm_histogram_first_peak_bpm.mean
+Timbre,lowlevel.spectral_contrast_coeffs.mean.5,lowlevel.mfcc.mean.6,lowlevel.spectral_kurtosis.mean,lowlevel.spectral_rms.mean,lowlevel.spectral_flux.mean,lowlevel.spectral_contrast_valleys.mean.2,lowlevel.mfcc.mean.11
+Timbre,lowlevel.mfcc.mean.10,lowlevel.spectral_contrast_coeffs.mean.2,lowlevel.spectral_contrast_coeffs.mean.2,lowlevel.spectral_contrast_coeffs.mean.3,lowlevel.spectral_contrast_valleys.mean.2,lowlevel.spectral_contrast_coeffs.mean.1,lowlevel.spectral_contrast_valleys.mean.1
+Timbre,lowlevel.mfcc.mean.9,lowlevel.mfcc.mean.5,lowlevel.spectral_skewness.mean,lowlevel.spectral_contrast_coeffs.mean.4,lowlevel.spectral_contrast_valleys.mean.3,lowlevel.spectral_contrast_valleys.mean.3,lowlevel.spectral_contrast_coeffs.mean.1
