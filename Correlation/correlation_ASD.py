@@ -104,7 +104,7 @@ def plotCorrelations (cMatrix, x_label, y_label, plotName, x_labels, y_labels):
 ########## START CODE ###################
 
 # Read files
-newpath = path + 'Data/'
+newpath = path + 'DataASD/'
 listOfSubjects = listdir(newpath)
 
 AverageMatrixCorrelation =np.zeros((12, 6))

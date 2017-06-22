@@ -55,6 +55,7 @@ def correlation(X,Y, sizeX, sizeY):
 	
 	return PearsonCorrMatrix, MINECorrMatrix
 
+
 def rankCorrelation (correlationMatrix, type):
 	N = 5
 	sizeC = correlationMatrix.shape
