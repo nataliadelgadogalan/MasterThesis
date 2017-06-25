@@ -108,7 +108,7 @@ def subjectsAverage(path, flag):
 
 
 
-def plot(eeg_feature, expected, plotName):
+def computeCentroids(eeg_feature, expected, plotName):
 	size_y = eeg_feature.shape
 	legend = ['Agressive', 'Calm', 'Happy', 'Sad']
 	colours = ['r', 'b', 'c', 'g']
@@ -127,48 +127,52 @@ def plot(eeg_feature, expected, plotName):
 		Valence = eeg_feature[i,5]
 		answer = expected[i]
 		index = [k for k,x in enumerate(legend) if x==answer]
-		#ax.scatter(Valence, Arousal, color = colours[index[0]])
-		#ax.set_xlabel('Valence')
-		#ax.set_ylabel('Arousal')
 
-		if index[0] == 0: 
-			AgressiveDataA.append(Arousal)
-			AgressiveDataV.append(Valence)
-		if index[0] == 1: 
-			CalmDataA.append(Arousal)
-			CalmDataV.append(Valence)
-		if index[0] == 2: 
-			HappyDataA.append(Arousal)
-			HappyDataV.append(Valence)
-		if index[0] == 3: 
-			SadDataA.append(Arousal)
-			SadDataV.append(Valence)
+		if index:
+			if index[0] == 0: 
+				AgressiveDataA.append(Arousal)
+				AgressiveDataV.append(Valence)
+			if index[0] == 1: 
+				CalmDataA.append(Arousal)
+				CalmDataV.append(Valence)
+			if index[0] == 2: 
+				HappyDataA.append(Arousal)
+				HappyDataV.append(Valence)
+			if index[0] == 3: 
+				SadDataA.append(Arousal)
+				SadDataV.append(Valence)
 
-
-	#Plot
-	#title = 'Arousal-Valence Centroids for' + plotName[-19:-11] + plotName[-10:-4]
-	#plt.title(title)
-	#plt.savefig(plotName)
 
 
 	# Calculate centroid for data:	
-	centroidAA, centroidAV = computeCentroid(AgressiveDataA, AgressiveDataV, type = 0)
-	centroidCA, centroidCV = computeCentroid(CalmDataA, CalmDataV, type = 0)
-	centroidHA, centroidHV = computeCentroid(HappyDataA, HappyDataV, type = 0)
-	centroidSA, centroidSV = computeCentroid(SadDataA, SadDataV, type = 0)
+	# (if there is no data for an emotion, its centroids are assigned to cero)
+	if AgressiveDataA: centroidAA, centroidAV = computeCentroid(AgressiveDataA, AgressiveDataV, type = 0)
+	else: 
+		centroidAA = 0
+		centroidAV = 0
+		AgressiveDataA = np.array([0], dtype=np.float32)
+		AgressiveDataV = np.array([0], dtype=np.float32)
 
-	# Plot centroids
-	# fig, ax = plt.subplots()
-	# ax.scatter(centroidAA, centroidAV, color = colours[0])
-	# ax.scatter(centroidCA, centroidCV, color = colours[1])
-	# ax.scatter(centroidHA, centroidHV, color = colours[2])
-	# ax.scatter(centroidSA, centroidSV, color = colours[3])
-	# ax.set_xlabel('Valence')
-	# ax.set_ylabel('Arousal')
-	# #ax.legend(handles=colours, labels = legend)
-	# title = 'Arousal-Valence Centroids for ' + plotName[-19:-11] +','+ plotName[-10:-4]
-	# plt.title(title)
-	# plt.savefig(plotName[:-4]+'_centroids.png')
+	if CalmDataA: centroidCA, centroidCV = computeCentroid(CalmDataA, CalmDataV, type = 0)
+	else: 
+		centroidCA = 0
+		centroidCV = 0
+		CalmDataA = np.array([0], dtype=np.float32)
+		CalmDataV = np.array([0], dtype=np.float32)
+	if HappyDataA: centroidHA, centroidHV = computeCentroid(HappyDataA, HappyDataV, type = 0)
+	else: 
+		centroidHA = 0
+		centroidHV = 0
+		HappyDataA = np.array([0], dtype=np.float32)
+		HappyDataV = np.array([0], dtype=np.float32)
+	if SadDataA: centroidSA, centroidSV = computeCentroid(SadDataA, SadDataV, type = 0)
+	else: 
+		centroidSA = 0
+		centroidSV = 0
+		SadDataA = np.array([0], dtype=np.float32)
+		SadDataV = np.array([0], dtype=np.float32)
+
+
 	
 	return AgressiveDataA, AgressiveDataV, CalmDataA, CalmDataV, HappyDataA, HappyDataV, SadDataA, SadDataV
 
@@ -262,11 +266,17 @@ for subject in listOfSubjects:
 		# Expected vs Response
 		Response_vs_Expected[int(stimuli_class[10])-1] = compareResultExpected(response = response, expected = expected)
 
-		# Plot arousal vs valence with expected response, to search for a match
+		# This function may be used to plot, but it is also used to compute the centroids
+		# Here you should select whether you want to plot compared to expected or to given response
+		print stimuli_class
 		print stimuli_class[10]
-		AgressiveDataA, AgressiveDataV, CalmDataA, CalmDataV, HappyDataA, HappyDataV, SadDataA, SadDataV= plot(eeg_feature = attributes, expected = expected, plotName = path +'Plots/'+ subject + '_' + Classes[int(stimuli_class[10])-1]+ '.png')
+		#AgressiveDataA, AgressiveDataV, CalmDataA, CalmDataV, HappyDataA, HappyDataV, SadDataA, SadDataV= plot(eeg_feature = attributes, expected = expected, plotName = path +'Plots/'+ subject + '_' + Classes[int(stimuli_class[10])-1]+ '.png')
+		AgressiveDataA, AgressiveDataV, CalmDataA, CalmDataV, HappyDataA, HappyDataV, SadDataA, SadDataV= computeCentroids(eeg_feature = attributes, expected = response, plotName = path +'Plots/'+ subject + '_' + Classes[int(stimuli_class[10])-1]+ '.png')
 		
+
 		# To plot average of one of classes of each subject
+		print "class"
+		print int(stimuli_class[10])
 		if int(stimuli_class[10]) == 1:
 			aggressiveDA = normalize(AgressiveDataA)
 			aggressiveDV = normalize(AgressiveDataV)
@@ -292,14 +302,11 @@ for subject in listOfSubjects:
 	write_csv([Response_vs_Expected], path + 'Results_ASD/' + 'Response_vs_Expected/' + subject[3] + 'Response_vs_Expected.csv', average = 0, flag = 0)
 
 
-#print AgressiveFinal
-print AgressiveAFinal
 centroidAA, centroidAV = computeCentroid(AgressiveAFinal, AgressiveVFinal, type = 1)
 centroidCA, centroidCV = computeCentroid(CalmAFinal, CalmVFinal, type = 1)
 centroidHA, centroidHV = computeCentroid(HappyAFinal, HappyVFinal, type = 1)
 centroidSA, centroidSV = computeCentroid(SadAFinal, SadAFinal, type = 1)
 
-print centroidAA, centroidAV
 
 # Plot average for one class
 fig, ax = plt.subplots()
@@ -310,12 +317,22 @@ ax.scatter(centroidSA, centroidSV, color = 'g')
 ax.set_xlabel('Valence')
 ax.set_ylabel('Arousal')
 
-title = 'Average Arousal-Valence Centroids for Audio Stimuli'
+title = 'Average Arousal-Valence Centroids with given response for Audio Stimuli'
 plt.title(title)
-plt.savefig(path +'Plots_ASD/'+ 'CentroidsAV_class1.png')
+plt.savefig(path +'Plots_ASD/'+ 'CentroidsAV_R_A.png')
 
-	
-# Compute average
+# Plot average for one class -- for written document with no title
+fig, ax = plt.subplots()
+ax.scatter(centroidAA, centroidAV, color = 'r')
+ax.scatter(centroidCA, centroidCV, color = 'b')
+ax.scatter(centroidHA, centroidHV, color = 'c')
+ax.scatter(centroidSA, centroidSV, color = 'g')
+ax.set_xlabel('Valence')
+ax.set_ylabel('Arousal')
+
+plt.savefig(path +'Plots_ASD_noTitle/'+ 'CentroidsAV_R_A.png')
+
+
 # Compute average
 newpath = path + 'Results_ASD/'
 listOfResultFolders = listdir(newpath)
